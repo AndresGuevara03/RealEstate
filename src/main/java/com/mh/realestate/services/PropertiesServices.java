@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -83,21 +84,27 @@ public class PropertiesServices implements PropertiesRepository{
 
     @Override
     public List<Property> findAllById(Iterable<Long> longs) {
-        return List.of();
+        return propertiesRepository.findAllById(longs);
     }
 
     @Override
     public <S extends Property> S save(S entity) {
-        return null;
+        return propertiesRepository.save(entity);
     }
 
     @Override
     public Optional<Property> findById(Long aLong) {
-        return Optional.empty();
+        return propertiesRepository.findById(aLong);
     }
 
     @Override
     public boolean existsById(Long aLong) {
+        ArrayList<Property> list = new ArrayList<>(findAll());
+        for(Property property : list) {
+            if(property.getId() == aLong) {
+                return true;
+            }
+        }
         return false;
     }
 
